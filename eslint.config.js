@@ -6,11 +6,20 @@ import importPlugin from 'eslint-plugin-import';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 
-export default tseslint.config([
+export default [
   {
     ignores: ['dist/**', 'node_modules/**', '*.config.js'],
   },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  importPlugin.configs.recommended,
+  importPlugin.configs.typescript,
   {
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+      import: importPlugin,
+    },
     files: ['**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
@@ -21,19 +30,7 @@ export default tseslint.config([
       },
       globals: globals.browser,
     },
-    extends: [
-      js.configs.recommended,
-      ...tseslint.configs.recommended,
-      importPlugin.configs.recommended,
-      importPlugin.configs.typescript,
-      reactHooks.configs.recommended,
-      prettier,
-    ],
-    plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-      import: importPlugin,
-    },
+    extends: [prettier],
     settings: {
       react: {
         version: 'detect',
@@ -51,10 +48,7 @@ export default tseslint.config([
     },
     rules: {
       'react/react-in-jsx-scope': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       // Import rules for better path alias support
       'import/no-unresolved': 'error',
       'import/named': 'error',
@@ -63,14 +57,7 @@ export default tseslint.config([
       'import/order': [
         'error',
         {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
-          ],
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',
@@ -80,4 +67,4 @@ export default tseslint.config([
       ],
     },
   },
-]);
+];
