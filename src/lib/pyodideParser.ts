@@ -30,7 +30,7 @@ class PyodideParser {
 
   private async loadPyodide(): Promise<PyodideInterface> {
     const pyodide = await loadPyodide({
-      indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/',
+      indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.28.0/full/',
     });
 
     // Install our Python parsing code

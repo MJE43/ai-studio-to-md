@@ -141,33 +141,37 @@ const GeminiMarkdownConverter: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg border border-slate-600">
+              <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg border border-slate-600 transition-all duration-200">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <label className="text-white font-medium">Claude Mode</label>
                     <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 border-purple-500/30">
                       Default
                     </Badge>
+                    {claudeMode && (
+                      <Badge variant="outline" className="border-green-500/30 text-green-400 bg-green-500/10">
+                        ON
+                      </Badge>
+                    )}
                   </div>
                   <p className="text-slate-400 text-sm">Use Human:/Assistant: format for Claude</p>
                 </div>
-                <Switch
-                  checked={claudeMode}
-                  onCheckedChange={setClaudeMode}
-                  className="data-[state=checked]:bg-purple-500"
-                />
+                <Switch checked={claudeMode} onCheckedChange={setClaudeMode} />
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg border border-slate-600">
+              <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg border border-slate-600 transition-all duration-200">
                 <div className="space-y-1">
-                  <label className="text-white font-medium">Include Thinking</label>
+                  <div className="flex items-center gap-2">
+                    <label className="text-white font-medium">Include Thinking</label>
+                    {includeThinking && (
+                      <Badge variant="outline" className="border-green-500/30 text-green-400 bg-green-500/10">
+                        ON
+                      </Badge>
+                    )}
+                  </div>
                   <p className="text-slate-400 text-sm">Include AI reasoning blocks in output</p>
                 </div>
-                <Switch
-                  checked={includeThinking}
-                  onCheckedChange={setIncludeThinking}
-                  className="data-[state=checked]:bg-purple-500"
-                />
+                <Switch checked={includeThinking} onCheckedChange={setIncludeThinking} />
               </div>
             </div>
           </CardContent>
