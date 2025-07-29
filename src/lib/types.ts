@@ -15,6 +15,11 @@ export interface ParsedMessage {
   parts: string[];
 }
 
+export interface ParseResult {
+  messages: ParsedMessage[];
+  systemInstruction?: string;
+}
+
 export interface ConversionOptions {
   includeThinking: boolean;
   claudeMode: boolean;

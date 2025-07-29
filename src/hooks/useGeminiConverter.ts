@@ -51,19 +51,19 @@ export const useGeminiConverter = (): UseGeminiConverterReturn => {
 
       try {
         // Parse the Python code
-        const parseResult = await parseCode(code)
+        const parseResult = await parseCode(code);
 
         if ('error' in parseResult) {
           return {
             success: false,
             error: parseResult.error,
-          }
+          };
         }
 
         // Convert to markdown
-        const conversionResult = MarkdownConverter.convertToMarkdown(parseResult, options)
+        const conversionResult = MarkdownConverter.convertToMarkdown(parseResult.messages, options);
 
-        return conversionResult
+        return conversionResult;
       } catch (error) {
         console.error('Conversion error:', error)
         return {

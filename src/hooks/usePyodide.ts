@@ -1,15 +1,15 @@
 // src/hooks/usePyodide.ts
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react';
 
 import { pyodideParser } from '@/lib/pyodideParser'
-import type { ParsedMessage } from '@/lib/types'
+import type { ParseResult } from '@/lib/types';
 
 interface UsePyodideReturn {
   isReady: boolean;
   isLoading: boolean;
   error: string | null;
-  parseCode: (code: string) => Promise<ParsedMessage[] | { error: string }>;
+  parseCode: (code: string) => Promise<ParseResult | { error: string }>;
   initializePyodide: () => Promise<void>;
 }
 
@@ -19,39 +19,42 @@ export const usePyodide = (): UsePyodideReturn => {
   const [error, setError] = useState<string | null>(null)
 
   const initializePyodide = useCallback(async () => {
-    if (isReady || isLoading) return
+    if (pyodideParser.isInitialized || pyodideParser.isInitializing) {
+      return;
+    }
 
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
 
     try {
-      await pyodideParser.initialize()
-      setIsReady(true)
+      await pyodideParser.initialize();
+      setIsReady(true);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to initialize Pyodide'
-      setError(errorMessage)
-      console.error('Pyodide initialization failed:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to initialize Pyodide';
+      setError(errorMessage);
+      console.error('Pyodide initialization error:', err);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [isReady, isLoading])
+  }, []);
 
-  const parseCode = useCallback(
-    async (code: string) => {
-      if (!isReady) {
-        throw new Error('Pyodide is not ready. Call initializePyodide() first.')
-      }
+  const parseCode = useCallback(async (code: string): Promise<ParseResult | { error: string }> => {
+    if (!pyodideParser.isInitialized) {
+      return { error: 'Pyodide is not initialized' };
+    }
 
-      return await pyodideParser.parseGeminiCode(code)
-    },
-    [isReady],
-  )
+    try {
+      return await pyodideParser.parseGeminiCode(code);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to parse code';
+      return { error: errorMessage };
+    }
+  }, []);
 
-  // Auto-initialize on mount (optional - you might want lazy loading)
+  // Auto-initialize on mount
   useEffect(() => {
-    // Uncomment if you want auto-initialization
-    // initializePyodide();
-  }, [])
+    initializePyodide();
+  }, [initializePyodide]);
 
   return {
     isReady,
