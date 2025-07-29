@@ -28,12 +28,15 @@
         "type-check": "tsc --noEmit"
     },
     "dependencies": {
+        "@radix-ui/react-slot": "^1.2.3",
+        "@radix-ui/react-switch": "^1.2.5",
         "@tailwindcss/vite": "^4.1.11",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "eslint-config-prettier": "^10.1.8",
         "lucide-react": "^0.526.0",
         "prettier": "^3.6.2",
+        "pyodide": "^0.28.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
         "tailwind-merge": "^3.3.1",
