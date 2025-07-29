@@ -1,8 +1,8 @@
 > **ℹ️ This is a project template. The title, description, and other fields below will be replaced when you create a new project from this template.**
 
-# {{project_title}}
+# AI Studio to MD
 
-{{project_description}}
+ai-studio-to-md lets you export your AI Studio conversations as clean, well-formatted Markdown files for easy uploading to other LLMs.
 
 ## 🚀 Quick Start
 
@@ -34,7 +34,7 @@
 ## 📁 Project Structure
 
 ```
-{{project_name}}/
+ai-studio-to-md/
 ├── src/
 │   ├── components/        # Reusable components
 │   │   └── ui/           # shadcn/ui components
@@ -98,9 +98,9 @@ npx shadcn@latest add [component-name]
 
 ## 📄 License
 
-{{project_name}} is [MIT licensed](./LICENSE).
+ai-studio-to-md is [MIT licensed](./LICENSE).
 
 ---
 
-**Author:** {{author_name}}{{#author_email}} ({{author_email}}){{/author_email}}
-**Year:** {{current_year}}
+**Author:** Michael Eisner{{#author_email}} (eisner.michaelj@gmail.com){{/author_email}}
+**Year:** 2025

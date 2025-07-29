@@ -19,10 +19,10 @@ function App() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold tracking-tight mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            {{project_title}}
+            Ai Studio To Md
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-8">
-            {{project_description}}
+            ai-studio-to-md lets you export your AI Studio conversations as clean, well-formatted Markdown files for easy uploading to other LLMs.
           </p>
           <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full text-sm font-medium">
             Ready for Production 🚀
@@ -112,10 +112,10 @@ function App() {
         {/* Footer */}
         <footer className="text-center mt-16 pt-8 border-t border-slate-200 dark:border-slate-700">
           <p className="text-slate-600 dark:text-slate-400 flex items-center justify-center gap-1">
-            Made with <span className="text-red-500">❤️</span> by {{author_name}}
+            Made with <span className="text-red-500">❤️</span> by Michael Eisner
           </p>
           <p className="text-xs text-slate-500 dark:text-slate-500 mt-2">
-            © {{current_year}} {{project_title}}. All rights reserved.
+            © 2025 Ai Studio To Md. All rights reserved.
           </p>
         </footer>
       </div>

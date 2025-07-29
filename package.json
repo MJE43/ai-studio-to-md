@@ -1,12 +1,12 @@
 {
-    "name": "{{project_name}}",
-    "description": "{{project_description}}",
+    "name": "ai-studio-to-md",
+    "description": "ai-studio-to-md lets you export your AI Studio conversations as clean, well-formatted Markdown files for easy uploading to other LLMs.",
     "version": "0.1.0",
     "private": true,
     "type": "module",
     "author": {
-        "name": "{{author_name}}",
-        "email": "{{author_email}}"
+        "name": "Michael Eisner",
+        "email": "eisner.michaelj@gmail.com"
     },
     "license": "MIT",
     "keywords": [
@@ -18,7 +18,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/{{author_name}}/{{project_name}}.git"
+        "url": "https://github.com/Michael Eisner/ai-studio-to-md.git"
     },
     "scripts": {
         "dev": "vite",
