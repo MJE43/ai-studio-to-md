@@ -127,6 +127,26 @@ def parse_part_object(node):
 
     return None
 
+def is_placeholder_text(text):
+    """Check if text is a placeholder that should be filtered out"""
+    if not text or not text.strip():
+        return True
+
+    # Check for INSERT_*_HERE patterns
+    import re
+    placeholder_pattern = r'INSERT_[A-Z_]*_HERE'
+    if re.search(placeholder_pattern, text.upper()):
+        return True
+
+    # Check for specific known placeholders
+    placeholders = {
+        'INSERT_INPUT_HERE',
+        'INSERT_YOUR_PROMPT_HERE',
+        'INSERT_USER_INPUT_HERE'
+    }
+
+    return text.strip().upper() in placeholders
+
 def parse_gemini_to_messages(code_str):
     """
     Main function to parse Gemini SDK code and return structured messages.
@@ -142,7 +162,10 @@ def parse_gemini_to_messages(code_str):
             parts_text = []
             for part in content['parts']:
                 if isinstance(part, dict) and 'text' in part:
-                    parts_text.append(part['text'])
+                    text = part['text']
+                    # Filter out placeholder text
+                    if not is_placeholder_text(text):
+                        parts_text.append(text)
 
             if parts_text:  # Only add if we have actual text parts
                 messages.append({

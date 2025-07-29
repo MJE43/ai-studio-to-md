@@ -5,10 +5,15 @@ import type { ParsedMessage, ConversionOptions, ConversionResult } from './types
 export class MarkdownConverter {
   static convertToMarkdown(messages: ParsedMessage[], options: ConversionOptions): ConversionResult {
     try {
-      if (messages.length === 0) {
+      // Filter out placeholder messages as backup
+      const filteredMessages = messages.filter(message =>
+        !this.isPlaceholderMessage(message)
+      );
+
+      if (filteredMessages.length === 0) {
         return {
           success: false,
-          error: 'No messages found to convert',
+          error: 'No valid messages found to convert',
         };
       }
 
@@ -23,7 +28,7 @@ export class MarkdownConverter {
       }
 
       // Process each message
-      messages.forEach((message, index) => {
+      filteredMessages.forEach((message, index) => {
         if (message.role === 'user') {
           markdown += this.formatUserMessage(message, options, index);
         } else if (message.role === 'model') {
@@ -31,10 +36,16 @@ export class MarkdownConverter {
         }
       });
 
+      // Add end of conversation marker if last message is from model
+      const lastMessage = filteredMessages[filteredMessages.length - 1];
+      if (lastMessage && lastMessage.role === 'model') {
+        markdown += '---\n\n*End of conversation*\n\n';
+      }
+
       return {
         success: true,
         markdown: markdown.trim(),
-        messageCount: messages.length,
+        messageCount: filteredMessages.length,
       };
     } catch (error) {
       return {
@@ -42,6 +53,37 @@ export class MarkdownConverter {
         error: `Failed to convert to markdown: ${error instanceof Error ? error.message : 'Unknown error'}`,
       };
     }
+  }
+
+  private static isPlaceholderMessage(message: ParsedMessage): boolean {
+    // Check if message has no valid parts
+    if (!message.parts || message.parts.length === 0) {
+      return true;
+    }
+
+    // Check if all parts are placeholders or empty
+    return message.parts.every(part => this.isPlaceholderText(part));
+  }
+
+  private static isPlaceholderText(text: string): boolean {
+    if (!text || !text.trim()) {
+      return true;
+    }
+
+    // Check for INSERT_*_HERE patterns
+    const placeholderPattern = /INSERT_[A-Z_]*_HERE/i;
+    if (placeholderPattern.test(text)) {
+      return true;
+    }
+
+    // Check for specific known placeholders
+    const placeholders = new Set([
+      'INSERT_INPUT_HERE',
+      'INSERT_YOUR_PROMPT_HERE',
+      'INSERT_USER_INPUT_HERE'
+    ]);
+
+    return placeholders.has(text.trim().toUpperCase());
   }
 
   private static formatUserMessage(message: ParsedMessage, options: ConversionOptions, index: number): string {
