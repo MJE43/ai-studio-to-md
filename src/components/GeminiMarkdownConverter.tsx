@@ -168,7 +168,7 @@ export default function GeminiMarkdownConverter() {
                 <Switch
                   checked={claudeMode}
                   onCheckedChange={setClaudeMode}
-                  className="data-[state=checked]:bg-cyan-500 data-[state=checked]:border-cyan-400 data-[state=checked]:shadow-cyan-500/25 focus-visible:ring-cyan-400"
+                  className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-teal-500 data-[state=checked]:to-cyan-500 data-[state=unchecked]:bg-slate-600 border-0 shadow-lg transition-all duration-300"
                 />
               </div>
 
@@ -187,7 +187,7 @@ export default function GeminiMarkdownConverter() {
                 <Switch
                   checked={includeThinking}
                   onCheckedChange={setIncludeThinking}
-                  className="data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-400 data-[state=checked]:shadow-blue-500/25 focus-visible:ring-blue-400"
+                  className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-blue-500 data-[state=checked]:to-indigo-500 data-[state=unchecked]:bg-slate-600 border-0 shadow-lg transition-all duration-300"
                 />
               </div>
             </div>
@@ -273,7 +273,7 @@ model = genai.GenerativeModel('gemini-pro')
                     variant="outline"
                     size="lg"
                     className={cn(
-                      'border-slate-600/50 text-slate-300 hover:bg-slate-600/50 transition-all duration-300 hover:border-cyan-500/50 hover:text-cyan-300 hover:shadow-lg hover:shadow-cyan-500/10',
+                      'border-slate-600/50 text-slate-300 hover:bg-slate-600/50 transition-all duration-300 bg-transparent hover:border-cyan-500/50 hover:text-cyan-300 hover:shadow-lg hover:shadow-cyan-500/10',
                       copySuccess && 'border-emerald-500/50 text-emerald-400 bg-emerald-500/10',
                     )}
                   >
