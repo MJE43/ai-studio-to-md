@@ -1,9 +1,9 @@
 // src/App.tsx
-import GeminiMarkdownConverter from '@/components/GeminiMarkdownConverter';
-import './styles/index.css';
+import GeminiMarkdownConverter from '@/components/GeminiMarkdownConverter'
+import './styles/index.css'
 
 function App() {
-  return <GeminiMarkdownConverter />;
+  return <GeminiMarkdownConverter />
 }
 
-export default App;
+export default App

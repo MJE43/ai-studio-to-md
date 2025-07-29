@@ -28,6 +28,6 @@ export interface ConversionResult {
 }
 
 export interface PyodideInstance {
-  runPython: (code: string) => any;
-  globals: Map<string, any>;
+  runPython: (code: string) => unknown;
+  globals: Map<string, unknown>;
 }

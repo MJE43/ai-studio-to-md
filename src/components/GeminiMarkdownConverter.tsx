@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react'
 import {
   Copy,
   Download,
@@ -12,25 +12,26 @@ import {
   Sparkles,
   Code,
   ArrowRight,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useGeminiConverter } from '@/hooks/useGeminiConverter';
+} from 'lucide-react'
+
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Switch } from '@/components/ui/switch'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
+import { useGeminiConverter } from '@/hooks/useGeminiConverter'
 
 export default function GeminiMarkdownConverter() {
   // Form state
-  const [input, setInput] = useState<string>('');
-  const [output, setOutput] = useState<string>('');
-  const [includeThinking, setIncludeThinking] = useState<boolean>(false);
-  const [claudeMode, setClaudeMode] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
-  const [messageCount, setMessageCount] = useState<number>(0);
-  const [copySuccess, setCopySuccess] = useState<boolean>(false);
+  const [input, setInput] = useState<string>('')
+  const [output, setOutput] = useState<string>('')
+  const [includeThinking, setIncludeThinking] = useState<boolean>(false)
+  const [claudeMode, setClaudeMode] = useState<boolean>(true)
+  const [error, setError] = useState<string>('')
+  const [messageCount, setMessageCount] = useState<number>(0)
+  const [copySuccess, setCopySuccess] = useState<boolean>(false)
 
   // Use the real converter hook
   const {
@@ -42,58 +43,58 @@ export default function GeminiMarkdownConverter() {
     initializePyodide,
     copyToClipboard,
     downloadAsFile,
-  } = useGeminiConverter();
+  } = useGeminiConverter()
 
   const handleInitializePyodide = useCallback(async () => {
     if (!isPyodideReady && !isPyodideLoading) {
-      await initializePyodide();
+      await initializePyodide()
     }
-  }, [isPyodideReady, isPyodideLoading, initializePyodide]);
+  }, [isPyodideReady, isPyodideLoading, initializePyodide])
 
   const handleConvert = useCallback(async () => {
     if (!input.trim()) {
-      setError('Please paste some Gemini SDK code to convert');
-      return;
+      setError('Please paste some Gemini SDK code to convert')
+      return
     }
 
     // Initialize Pyodide if not ready
     if (!isPyodideReady) {
-      await handleInitializePyodide();
+      await handleInitializePyodide()
     }
 
-    setError('');
+    setError('')
 
-    const result = await convertCode(input, { includeThinking, claudeMode });
+    const result = await convertCode(input, { includeThinking, claudeMode })
 
     if (result.success && result.markdown) {
-      setOutput(result.markdown);
-      setMessageCount(result.messageCount || 0);
-      setError('');
+      setOutput(result.markdown)
+      setMessageCount(result.messageCount || 0)
+      setError('')
     } else {
-      setError(result.error || 'Unknown error occurred');
-      setOutput('');
-      setMessageCount(0);
+      setError(result.error || 'Unknown error occurred')
+      setOutput('')
+      setMessageCount(0)
     }
-  }, [input, includeThinking, claudeMode, isPyodideReady, convertCode, handleInitializePyodide]);
+  }, [input, includeThinking, claudeMode, isPyodideReady, convertCode, handleInitializePyodide])
 
   const handleCopyToClipboard = useCallback(async () => {
-    if (!output) return;
+    if (!output) return
 
-    const success = await copyToClipboard(output);
+    const success = await copyToClipboard(output)
     if (success) {
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
+      setCopySuccess(true)
+      setTimeout(() => setCopySuccess(false), 2000)
     }
-  }, [output, copyToClipboard]);
+  }, [output, copyToClipboard])
 
   const handleDownload = useCallback(async () => {
-    if (!output) return;
+    if (!output) return
 
-    await downloadAsFile(output, 'gemini-conversation.md');
-  }, [output, downloadAsFile]);
+    await downloadAsFile(output, 'gemini-conversation.md')
+  }, [output, downloadAsFile])
 
   // Show pyodide error if there is one
-  const displayError = error || pyodideError;
+  const displayError = error || pyodideError
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
@@ -365,5 +366,5 @@ model = genai.GenerativeModel('gemini-pro')
         )}
       </div>
     </div>
-  );
+  )
 }
