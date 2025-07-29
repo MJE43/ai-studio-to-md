@@ -1,9 +1,7 @@
 import js from '@eslint/js';
-import globals from 'globals';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
-import importPlugin from 'eslint-plugin-import';
 import tseslint from 'typescript-eslint';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 import prettier from 'eslint-config-prettier';
 
 export default [
@@ -12,59 +10,29 @@ export default [
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
-  importPlugin.configs.recommended,
-  importPlugin.configs.typescript,
   {
-    plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-      import: importPlugin,
-    },
     files: ['**/*.{ts,tsx,js,jsx}'],
+    plugins: {
+      react,
+      'react-hooks': reactHooks,
+    },
     languageOptions: {
-      ecmaVersion: 2020,
       parserOptions: {
+        ecmaVersion: 2020,
         sourceType: 'module',
         ecmaFeatures: { jsx: true },
-        project: ['./tsconfig.json', './tsconfig.app.json'],
       },
-      globals: globals.browser,
     },
-    extends: [prettier],
     settings: {
       react: {
         version: 'detect',
       },
-      'import/resolver': {
-        typescript: {
-          alwaysTryTypes: true,
-          project: ['./tsconfig.json', './tsconfig.app.json'],
-        },
-        node: {
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        },
-      },
-      'import/extensions': ['.js', '.jsx', '.ts', '.tsx'],
     },
     rules: {
       'react/react-in-jsx-scope': 'off',
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      // Import rules for better path alias support
-      'import/no-unresolved': 'error',
-      'import/named': 'error',
-      'import/default': 'error',
-      'import/namespace': 'error',
-      'import/order': [
-        'error',
-        {
-          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-          'newlines-between': 'always',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-        },
-      ],
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
     },
+    extends: [prettier],
   },
 ];
