@@ -9,16 +9,16 @@ import { usePyodide } from './usePyodide'
 
 interface UseGeminiConverterReturn {
   // State
-  isProcessing: boolean;
-  isPyodideReady: boolean;
-  isPyodideLoading: boolean;
-  pyodideError: string | null;
+  isProcessing: boolean
+  isPyodideReady: boolean
+  isPyodideLoading: boolean
+  pyodideError: string | null
 
   // Actions
-  convertCode: (code: string, options: ConversionOptions) => Promise<ConversionResult>;
-  initializePyodide: () => Promise<void>;
-  copyToClipboard: (content: string) => Promise<boolean>;
-  downloadAsFile: (content: string, filename?: string) => Promise<void>;
+  convertCode: (code: string, options: ConversionOptions) => Promise<ConversionResult>
+  initializePyodide: () => Promise<void>
+  copyToClipboard: (content: string) => Promise<boolean>
+  downloadAsFile: (content: string, filename?: string) => Promise<void>
 }
 
 export const useGeminiConverter = (): UseGeminiConverterReturn => {
@@ -51,19 +51,19 @@ export const useGeminiConverter = (): UseGeminiConverterReturn => {
 
       try {
         // Parse the Python code
-        const parseResult = await parseCode(code);
+        const parseResult = await parseCode(code)
 
         if ('error' in parseResult) {
           return {
             success: false,
             error: parseResult.error,
-          };
+          }
         }
 
         // Convert to markdown
-        const conversionResult = MarkdownConverter.convertToMarkdown(parseResult.messages, options);
+        const conversionResult = MarkdownConverter.convertToMarkdown(parseResult.messages, options)
 
-        return conversionResult;
+        return conversionResult
       } catch (error) {
         console.error('Conversion error:', error)
         return {

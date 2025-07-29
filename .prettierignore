@@ -1,3 +1,28 @@
+# Dependencies
 node_modules
+
+# Build outputs
 dist
 build
+.vite
+
+# Logs
+*.log
+
+# Editor directories and files
+.vscode
+.idea
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Package manager
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Other
+.env
+.env.local
+.env.production

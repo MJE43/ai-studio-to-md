@@ -1,9 +1,11 @@
-import { defineConfig } from "eslint/config"
-import typescriptEslint from "@typescript-eslint/eslint-plugin"
-import react from "eslint-plugin-react"
-import reactHooks from "eslint-plugin-react-hooks"
-import eslintPluginImport from "eslint-plugin-import"
-import typescriptParser from "@typescript-eslint/parser"
+import { defineConfig } from 'eslint/config'
+import typescriptEslint from '@typescript-eslint/eslint-plugin'
+import react from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
+import eslintPluginImport from 'eslint-plugin-import'
+import typescriptParser from '@typescript-eslint/parser'
+import prettierPlugin from 'eslint-plugin-prettier'
+import prettierConfig from 'eslint-config-prettier'
 
 export default defineConfig([
   {
@@ -24,6 +26,7 @@ export default defineConfig([
       react: react,
       'react-hooks': reactHooks,
       import: eslintPluginImport,
+      prettier: prettierPlugin,
     },
     settings: {
       react: {
@@ -67,6 +70,12 @@ export default defineConfig([
       ],
       'import/no-unresolved': 'warn', // Less strict - Vite handles resolution
       'import/no-duplicates': 'error',
+
+      // Prettier integration
+      'prettier/prettier': 'error',
+
+      // Disable formatting rules that conflict with Prettier
+      ...prettierConfig.rules,
     },
   },
   {

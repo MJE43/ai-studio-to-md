@@ -2,37 +2,37 @@
 
 import { loadPyodide, type PyodideInterface } from 'pyodide'
 
-import type { ParsedMessage, ParseResult } from './types';
+import type { ParsedMessage, ParseResult } from './types'
 
 class PyodideParser {
-  private pyodide: PyodideInterface | null = null;
-  private isLoading = false;
-  private loadPromise: Promise<PyodideInterface> | null = null;
+  private pyodide: PyodideInterface | null = null
+  private isLoading = false
+  private loadPromise: Promise<PyodideInterface> | null = null
 
   async initialize(): Promise<PyodideInterface> {
     if (this.pyodide) {
-      return this.pyodide;
+      return this.pyodide
     }
 
     if (this.loadPromise) {
-      return this.loadPromise;
+      return this.loadPromise
     }
 
-    this.isLoading = true;
-    this.loadPromise = this.loadPyodide();
+    this.isLoading = true
+    this.loadPromise = this.loadPyodide()
 
     try {
-      this.pyodide = await this.loadPromise;
-      return this.pyodide;
+      this.pyodide = await this.loadPromise
+      return this.pyodide
     } finally {
-      this.isLoading = false;
+      this.isLoading = false
     }
   }
 
   private async loadPyodide(): Promise<PyodideInterface> {
     const pyodide = await loadPyodide({
       indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.28.0/full/',
-    });
+    })
 
     // Install our Python parsing code
     pyodide.runPython(`
@@ -237,13 +237,13 @@ def parse_gemini_to_messages(code_str):
         result['systemInstruction'] = system_instruction
 
     return result
-    `);
+    `)
 
-    return pyodide;
+    return pyodide
   }
 
   async parseGeminiCode(code: string): Promise<ParseResult | { error: string }> {
-    const pyodide = await this.initialize();
+    const pyodide = await this.initialize()
 
     try {
       // Call our Python parsing function
@@ -251,49 +251,49 @@ def parse_gemini_to_messages(code_str):
 import json
 result = parse_gemini_to_messages(${JSON.stringify(code)})
 json.dumps(result)
-      `);
+      `)
 
-      const parsed = JSON.parse(result);
+      const parsed = JSON.parse(result)
 
       // Check if it's an error
       if (parsed && typeof parsed === 'object' && 'error' in parsed) {
-        return { error: parsed.error };
+        return { error: parsed.error }
       }
 
       // Validate the structure
       if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.messages)) {
-        return { error: 'Invalid response format from parser' };
+        return { error: 'Invalid response format from parser' }
       }
 
       // Type-safe conversion
       const messages: ParsedMessage[] = parsed.messages.map((msg: unknown) => {
-        const message = msg as { role: string; parts: string[] };
+        const message = msg as { role: string; parts: string[] }
         return {
           role: message.role as 'user' | 'model',
           parts: message.parts as string[],
-        };
-      });
+        }
+      })
 
       const parseResult: ParseResult = {
         messages,
         systemInstruction: parsed.systemInstruction || undefined,
-      };
+      }
 
-      return parseResult;
+      return parseResult
     } catch (error) {
-      console.error('Pyodide parsing error:', error);
+      console.error('Pyodide parsing error:', error)
       return {
         error: `Failed to parse code: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      };
+      }
     }
   }
 
   get isInitialized(): boolean {
-    return this.pyodide !== null;
+    return this.pyodide !== null
   }
 
   get isInitializing(): boolean {
-    return this.isLoading;
+    return this.isLoading
   }
 }
 

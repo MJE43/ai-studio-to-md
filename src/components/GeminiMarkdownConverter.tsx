@@ -233,7 +233,7 @@ export default function GeminiMarkdownConverter() {
             <CardContent>
               <Textarea
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={e => setInput(e.target.value)}
                 onFocus={handleInitializePyodide}
                 placeholder="Paste your Gemini SDK code here (the full Python code from AI Studio's 'Get Code' feature)...
 

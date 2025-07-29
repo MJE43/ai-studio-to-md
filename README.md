@@ -7,11 +7,13 @@ ai-studio-to-md lets you export your AI Studio conversations as clean, well-form
 ## 🚀 Quick Start
 
 1. **Setup the project:**
+
    ```bash
    node setup-project.js
    ```
 
 2. **Install dependencies:**
+
    ```bash
    pnpm install
    ```
@@ -61,10 +63,11 @@ Clean imports with pre-configured path aliases:
 - `@styles` → `src/index.css`
 
 Example usage:
+
 ```tsx
-import { Button } from '@ui/button';
-import { cn } from '@lib/utils';
-import { useLocalStorage } from '@hooks/use-local-storage';
+import { Button } from '@ui/button'
+import { cn } from '@lib/utils'
+import { useLocalStorage } from '@hooks/use-local-storage'
 ```
 
 ## 🧩 Available Components

@@ -1,38 +1,38 @@
 // src/lib/types.ts
 
 export interface GeminiContent {
-  role: 'user' | 'model';
-  parts: GeminiPart[];
+  role: 'user' | 'model'
+  parts: GeminiPart[]
 }
 
 export interface GeminiPart {
-  text?: string;
+  text?: string
   // Could extend this for other part types like images, etc.
 }
 
 export interface ParsedMessage {
-  role: 'user' | 'model';
-  parts: string[];
+  role: 'user' | 'model'
+  parts: string[]
 }
 
 export interface ParseResult {
-  messages: ParsedMessage[];
-  systemInstruction?: string;
+  messages: ParsedMessage[]
+  systemInstruction?: string
 }
 
 export interface ConversionOptions {
-  includeThinking: boolean;
-  claudeMode: boolean;
+  includeThinking: boolean
+  claudeMode: boolean
 }
 
 export interface ConversionResult {
-  success: boolean;
-  markdown?: string;
-  error?: string;
-  messageCount?: number;
+  success: boolean
+  markdown?: string
+  error?: string
+  messageCount?: number
 }
 
 export interface PyodideInstance {
-  runPython: (code: string) => unknown;
-  globals: Map<string, unknown>;
+  runPython: (code: string) => unknown
+  globals: Map<string, unknown>
 }
