@@ -1,26 +1,75 @@
-module.exports = {
-  root: true,
-  parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'import'],
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:import/errors',
-    'plugin:import/warnings',
-    'plugin:import/typescript',
-    'plugin:prettier/recommended',
-  ],
-  settings: {
-    react: {
-      version: 'detect',
+import { defineConfig } from 'eslint/config';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import eslintPluginImport from 'eslint-plugin-import';
+import typescriptParser from '@typescript-eslint/parser';
+
+export default defineConfig([
+  {
+    name: 'ai-studio-to-md/base',
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      parser: typescriptParser,
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    plugins: {
+      '@typescript-eslint': typescriptEslint,
+      react: react,
+      'react-hooks': reactHooks,
+      import: eslintPluginImport,
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+      'import/resolver': {
+        typescript: true,
+        node: true,
+      },
+    },
+    rules: {
+      // Base ESLint recommended rules
+      semi: 'error',
+      'prefer-const': 'error',
+      'no-unused-vars': 'off', // Disabled in favor of TypeScript version
+
+      // TypeScript rules
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+
+      // React rules
+      'react/react-in-jsx-scope': 'off', // Not needed with React 17+
+      'react/prop-types': 'off', // Using TypeScript for prop validation
+      'react/jsx-uses-react': 'error',
+      'react/jsx-uses-vars': 'error',
+
+      // React Hooks rules
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+
+      // Import rules
+      'import/order': [
+        'warn',
+        {
+          'newlines-between': 'always',
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+        },
+      ],
+      'import/no-unresolved': 'error',
+      'import/no-duplicates': 'error',
     },
   },
-  rules: {
-    // Customize as needed
-    'react/react-in-jsx-scope': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-    'import/order': ['warn', { 'newlines-between': 'always' }],
+  {
+    name: 'ai-studio-to-md/ignores',
+    ignores: ['dist/**', 'build/**', 'node_modules/**', '*.config.js', '*.config.ts', '!eslint.config.*'],
   },
-};
+]);
